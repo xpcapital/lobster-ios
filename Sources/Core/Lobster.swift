@@ -4,7 +4,7 @@
 import Foundation
 import FirebaseRemoteConfig
 import Amplitude
-import Experiment
+import AmplitudeExperiment
 
 /** Lobster wraps Remote Config and Amplitude Experiment interfaces */
 public class Lobster {

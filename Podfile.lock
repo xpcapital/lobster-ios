@@ -1,4 +1,9 @@
 PODS:
+  - Amplitude (8.8.0):
+    - AnalyticsConnector (~> 1.0.0)
+  - AmplitudeExperiment (1.7.0):
+    - AnalyticsConnector (~> 1.0.0)
+  - AnalyticsConnector (1.0.0)
   - Firebase/CoreOnly (7.7.0):
     - FirebaseCore (= 7.7.0)
   - Firebase/RemoteConfig (7.7.0):
@@ -45,10 +50,15 @@ PODS:
   - PromisesObjC (1.2.12)
 
 DEPENDENCIES:
+  - Amplitude (= 8.8.0)
+  - AmplitudeExperiment (= 1.7.0)
   - Firebase/RemoteConfig (~> 7.7.0)
 
 SPEC REPOS:
   trunk:
+    - Amplitude
+    - AmplitudeExperiment
+    - AnalyticsConnector
     - Firebase
     - FirebaseABTesting
     - FirebaseCore
@@ -61,6 +71,9 @@ SPEC REPOS:
     - PromisesObjC
 
 SPEC CHECKSUMS:
+  Amplitude: 710116f3539c225e86fb70a8abdcd20015683132
+  AmplitudeExperiment: bd890df05c92cae0317b9103168cb77eff9549b0
+  AnalyticsConnector: 4c386d5972ac9da86e22d668564dbbac97558754
   Firebase: cd2ab85eec8170dc260186159f21072ecb679ad5
   FirebaseABTesting: e66f1f80747792630d9b292966de206d5df9853b
   FirebaseCore: ac35d680a0bf32319a59966a1478e0741536b97b
@@ -72,6 +85,6 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
 
-PODFILE CHECKSUM: f2d0c2935a2a14eccd5a39fc7a424ac240af849e
+PODFILE CHECKSUM: d245799da2820d1fbcc57e1a18ce628e029055b8
 
 COCOAPODS: 1.11.2
