@@ -3,6 +3,7 @@
 
 import Foundation
 import FirebaseRemoteConfig
+import FirebaseCrashlytics
 import Amplitude
 import AmplitudeExperiment
 
@@ -86,6 +87,11 @@ public class Lobster {
 
     /** Default value store. */
     public let defaultsStore = DefaultsStore()
+    
+    // MARK: - Private Properties
+    
+    /** Crashlytics instance to record errors */
+    private var crashlytics = Crashlytics.crashlytics()
     
     // MARK: - Initializers
     
@@ -251,9 +257,30 @@ public class Lobster {
                 
                 /** Stores each payload locally */
                 payload.forEach { (key, value) in
+                    self.checkForDuplicateKey(key, newValue: value)
                     self.experimentVariants[key] = value
                 }
             }
+    }
+    
+    /**
+     Checks if a given key already exists in the Experiments array and record an error to Crashlytics if so.
+     - parameter key: The key to check for duplicate.
+     - parameter newValue: The new value for the given key.
+     */
+    private func checkForDuplicateKey(_ key: String, newValue: Any) {
+        if experimentVariants.keys.contains(key) {
+            let previousValue = experimentVariants[key] as Any
+            let errorMessage = "Duplicate Experiment key: \(key), previous value: \(previousValue), new value: \(newValue)"
+            let userInfo: [String: Any] = [
+                NSLocalizedDescriptionKey: "\(#function):\(#line)",
+                NSLocalizedFailureReasonErrorKey: errorMessage
+            ]
+            let file = #file.split(separator: "/").last ?? "Unable_to_find_file"
+            let error = NSError(domain: String(file), code: -1001, userInfo: userInfo)
+
+            crashlytics.record(error: error)
+        }
     }
     
 }
