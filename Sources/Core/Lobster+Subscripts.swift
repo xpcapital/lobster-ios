@@ -13,12 +13,14 @@ public extension Lobster {
     /// You can use this subscripting if a type of config key is `ConfigKey<T?>`. This is, `ConfigKey.ValueType` must be Optional type such as `String?`.
     /// Also, `T` is needed to be conformed protocol `ConfigSerializable`
     ///
-    /// Lobster will return the value for key if RemoteConfig has the value at first.
-    /// If not so, Lobster will try to retrieve value from DefaultsStore automatically.
-    /// If Neigher RemoteConfig nor DefaultsStore have the value, Lobster will return `nil`.
+    /// Lobster will return the value for key if Amplitude Experiment has the value at first.
+    /// If not so, Lobster will try to retrieve value from the RemoteConfig automatically.
+    /// If still not so, Lobster will try to retrieve value from DefaultsStore automatically.
+    /// If Neigher Amplitude Experiment, RemoteConfig nor DefaultsStore have the value, Lobster will return `nil`.
+    
     subscript<T: ConfigSerializable>(key: ConfigKey<T?>) -> T.Value? {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants) {
                 return value
             } else if let defaultValue = T._config.get(key: key._key, defaultsStore: defaultsStore) {
                 return defaultValue
@@ -28,10 +30,10 @@ public extension Lobster {
         }
     }
 
-    /// Get value from remote-config -> default
+    /// Get value from Amplitude Experiment or Remote-Config -> default
     subscript<T: ConfigSerializable>(key: ConfigKey<T>) -> T.Value {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants) {
                 return value
             } else if let defaultValue = T._config.get(key: key._key, defaultsStore: defaultsStore) {
                 return defaultValue
@@ -41,10 +43,10 @@ public extension Lobster {
         }
     }
 
-    /// Get value safely from remote-config -> default
+    /// Get value safely from Amplitude Experiment or Remote-Config -> default
     subscript<T: ConfigSerializable>(safe key: ConfigKey<T>) -> T.Value? {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants) {
                 return value
             } else if let defaultValue = T._config.get(key: key._key, defaultsStore: defaultsStore) {
                 return defaultValue
@@ -54,24 +56,24 @@ public extension Lobster {
         }
     }
 
-    /// Get value from config
+    /// Get value from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(config key: ConfigKey<T?>) -> T.Value? {
-        get { T._config.get(key: key._key, remoteConfig: remoteConfig) }
+        get { T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants) }
     }
 
-    /// Get value from config
+    /// Get value from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(config key: ConfigKey<T>) -> T.Value {
         get {
-            guard let value = T._config.get(key: key._key, remoteConfig: remoteConfig) else {
+            guard let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants) else {
                 fatalError("Failed to get value from default. Please set default value before or use `safeConfig` subscript.")
             }
             return value
         }
     }
 
-    /// Get value safely from config
+    /// Get value safely from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(safeConfig key: ConfigKey<T>) -> T.Value? {
-        get { T._config.get(key: key._key, remoteConfig: remoteConfig) }
+        get { T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants) }
     }
 
     /// Get value from default / Set value to default
@@ -118,7 +120,7 @@ public extension Lobster {
 public extension Lobster {
     subscript<T: ConfigSerializable>(key: DecodableConfigKey<T?>) -> T.Value? {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) {
                 return value
             } else {
                 return nil
@@ -126,10 +128,10 @@ public extension Lobster {
         }
     }
 
-    /// Get value from remote-config -> default
+    /// Get value from Amplitude Experiment or Remote-Config -> default
     subscript<T: ConfigSerializable>(key: DecodableConfigKey<T>) -> T.Value {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) {
                 return value
             } else {
                 fatalError("Failed to get value. Please set default value or remote config value before.")
@@ -137,10 +139,10 @@ public extension Lobster {
         }
     }
 
-    /// Get value safely from remote-config -> default
+    /// Get value safely from Amplitude Experiment or Remote-Config -> default
     subscript<T: ConfigSerializable>(safe key: DecodableConfigKey<T>) -> T.Value? {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) {
                 return value
             } else {
                 return nil
@@ -148,31 +150,31 @@ public extension Lobster {
         }
     }
 
-    /// Get value from config
+    /// Get value from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(config key: DecodableConfigKey<T?>) -> T.Value? {
-        get { T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) }
+        get { T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) }
     }
 
-    /// Get value from config
+    /// Get value from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(config key: DecodableConfigKey<T>) -> T.Value {
         get {
-            guard let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) else {
+            guard let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) else {
                 fatalError("Failed to get value from default. Please set default value before or use `safeConfig` subscript.")
             }
             return value
         }
     }
 
-    /// Get value safely from config
+    /// Get value safely from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(safeConfig key: DecodableConfigKey<T>) -> T.Value? {
-        get { T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) }
+        get { T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) }
     }
 }
 
 public extension Lobster {
     subscript<T: ConfigSerializable>(key: CodableConfigKey<T?>) -> T.Value? {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) {
                 return value
             } else if let defaultValue = T._config.get(key: key._key, defaultsStore: defaultsStore, decoder: key.decoder) {
                 return defaultValue
@@ -182,10 +184,10 @@ public extension Lobster {
         }
     }
 
-    /// Get value from remote-config -> default
+    /// Get value from Amplitude Experiment or Remote-Config -> default
     subscript<T: ConfigSerializable>(key: CodableConfigKey<T>) -> T.Value {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) {
                 return value
             } else if let defaultValue = T._config.get(key: key._key, defaultsStore: defaultsStore, decoder: key.decoder) {
                 return defaultValue
@@ -195,10 +197,10 @@ public extension Lobster {
         }
     }
 
-    /// Get value safely from remote-config -> default
+    /// Get value safely from Amplitude Experiment or Remote-Config -> default
     subscript<T: ConfigSerializable>(safe key: CodableConfigKey<T>) -> T.Value? {
         get {
-            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) {
+            if let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) {
                 return value
             } else if let defaultValue = T._config.get(key: key._key, defaultsStore: defaultsStore, decoder: key.decoder) {
                 return defaultValue
@@ -208,24 +210,24 @@ public extension Lobster {
         }
     }
 
-    /// Get value from config
+    /// Get value from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(config key: CodableConfigKey<T?>) -> T.Value? {
-        get { T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) }
+        get { T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) }
     }
 
-    /// Get value from config
+    /// Get value from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(config key: CodableConfigKey<T>) -> T.Value {
         get {
-            guard let value = T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) else {
+            guard let value = T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) else {
                 fatalError("Failed to get value from default. Please set default value before or use `safeConfig` subscript.")
             }
             return value
         }
     }
 
-    /// Get value safely from config
+    /// Get value safely from Amplitude Experiment or Remote-Config
     subscript<T: ConfigSerializable>(safeConfig key: CodableConfigKey<T>) -> T.Value? {
-        get { T._config.get(key: key._key, remoteConfig: remoteConfig, decoder: key.decoder) }
+        get { T._config.get(key: key._key, remoteConfig: remoteConfig, experimentVariants: experimentVariants, decoder: key.decoder) }
     }
 
     /// Get value from default / Set value to default

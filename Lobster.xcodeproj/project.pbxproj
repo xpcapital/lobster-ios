@@ -303,6 +303,8 @@
 			dependencies = (
 			);
 			name = Lobster;
+			packageProductDependencies = (
+			);
 			productName = Lobster;
 			productReference = 163143FF1FA8BE8600D25996 /* Lobster.framework */;
 			productType = "com.apple.product-type.framework";
@@ -380,6 +382,8 @@
 				Base,
 			);
 			mainGroup = 163143F51FA8BE8600D25996;
+			packageReferences = (
+			);
 			productRefGroup = 163144001FA8BE8600D25996 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
