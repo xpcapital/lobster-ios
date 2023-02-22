@@ -13,8 +13,8 @@ Pod::Spec.new do |spec|
   spec.requires_arc     = true
   spec.static_framework = true
 
-  spec.dependency 'FirebaseRemoteConfig', '~> 7.7.0'
-  spec.dependency 'Firebase/Crashlytics', '~> 7.7.0'
+  spec.dependency 'FirebaseRemoteConfig', '~> 10.5.0'
+  spec.dependency 'Firebase/Crashlytics', '~> 10.5.0'
   spec.dependency 'Amplitude', '8.8.0'
   spec.dependency 'AmplitudeExperiment', '1.7.0'
   spec.default_subspecs = 'Core'
