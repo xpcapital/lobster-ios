@@ -198,6 +198,26 @@ public class Lobster {
                 completion(error)
             }
         }
+
+        remoteConfig.addOnConfigUpdateListener { configUpdate, error in
+            guard error == nil else {
+
+                print("error \(error)")
+
+                return
+            }
+            print("Updated keys: \(configUpdate!.updatedKeys)")
+
+            self.remoteConfig.activate { changed, error in
+                guard error == nil else {
+                    print("error \(error)")
+
+                    return
+                }
+
+                print(changed)
+            }
+        }
     }
     
     /**
