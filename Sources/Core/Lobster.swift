@@ -6,6 +6,7 @@ import FirebaseRemoteConfig
 import FirebaseCrashlytics
 import Amplitude
 import AmplitudeExperiment
+import FirebaseRemoteConfigSwift
 
 /** Lobster wraps Remote Config and Amplitude Experiment interfaces */
 public class Lobster {
