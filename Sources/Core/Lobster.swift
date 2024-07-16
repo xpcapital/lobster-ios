@@ -44,7 +44,7 @@ public class Lobster {
      The custom fetch expiration duration. You can change it you want.
      Default is `defaultExpirationDuration`
      */
-    public var fetchExpirationDuration: TimeInterval = Lobster.defaultExpirationDuration
+    public var fetchExpirationDuration: TimeInterval = 7_200.0 // Lobster.defaultExpirationDuration
 
     /**
      A flag indicating whether to check for stale status or not.
