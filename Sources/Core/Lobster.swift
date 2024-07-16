@@ -39,7 +39,7 @@ public class Lobster {
     
     /** The Remote Config default expiration duration. `12 hours` */
     public static let defaultExpirationDuration: TimeInterval = 43_200.0
-
+    
     /**
      The custom fetch expiration duration. You can change it you want.
      Default is `defaultExpirationDuration`

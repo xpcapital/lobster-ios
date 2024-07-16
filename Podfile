@@ -4,8 +4,8 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'Lobster' do
-  pod 'Firebase/RemoteConfig', '~> 10.5.0'
-  pod 'Firebase/Crashlytics', '~> 10.5.0'
+  pod 'Firebase/RemoteConfig', '~> 10.25.0'
+  pod 'Firebase/Crashlytics', '~> 10.25.0'
   pod 'Amplitude', '8.8.0'
   pod 'AmplitudeExperiment', '1.7.0'
   target 'LobsterTests' do
