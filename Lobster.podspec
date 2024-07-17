@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name             = 'Lobster'
-  spec.version          = '3.1.1'
+  spec.version          = '3.2'
   spec.author           = { 'Suguru Kishimoto' => 'melodydance.k.s@gmail.com' }
   spec.summary          = 'The Type-safe Firebase-RemoteConfig helper library'
   spec.homepage         = 'https://github.com/sgr-ksmt/Lobster'
@@ -13,8 +13,8 @@ Pod::Spec.new do |spec|
   spec.requires_arc     = true
   spec.static_framework = true
 
-  spec.dependency 'FirebaseRemoteConfig', '~> 10.5.0'
-  spec.dependency 'Firebase/Crashlytics', '~> 10.5.0'
+  spec.dependency 'FirebaseRemoteConfig', '~> 10.25.0'
+  spec.dependency 'Firebase/Crashlytics', '~> 10.25.0'
   spec.dependency 'Amplitude', '8.8.0'
   spec.dependency 'AmplitudeExperiment', '1.7.0'
   spec.default_subspecs = 'Core'
